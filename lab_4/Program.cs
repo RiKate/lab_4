@@ -5,17 +5,6 @@ namespace lab_4
 {
     class Program
     {
-        public Subject SetSubject()
-        {
-            Subject subject = new Subject();
-
-            return new Subject();
-        }
-        public Teacher SetTeacher(Subject subject)
-        {
-
-            return new Teacher();
-        }
         static void Main(string[] args)
         {
             /*Labs*/
