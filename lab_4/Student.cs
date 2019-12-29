@@ -10,18 +10,21 @@ namespace lab_4
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public Dictionary<Subject, int> PassingLab { get; set; }
-        public Dictionary<Subject, Theme> ListeningLections { get; set; }
-        public Dictionary<Subject, Theme> ListeningSeminars { get; set; }
+        public Dictionary<Subject, List<Theme>> ListeningLections { get; set; }
+        public Dictionary<Subject, List<Theme>> ListeningSeminars { get; set; }
 
         public ICollection<Subject> Subjects { get; set; } = new List<Subject>();
 
-
-        public void PassExam(Teacher t, Subject s)
+        public void PassExam(Teacher teacher, Subject subject)
         {
-            if (t.subject == s)
-                Console.WriteLine(FirstName + " " + LastName + " pass the exam " + s.Name);
-            else
-                Console.WriteLine(FirstName + " " + LastName + " do not pass the exam " + s.Name);
+            if(teacher.CheckLabs(this, subject))
+            {
+                Theme theme = teacher.GiveQuestion();
+                if (ListeningLections[subject].Contains(theme))
+                    teacher.TakeExam();
+                else
+                    Console.WriteLine("Fail");
+            }
         }
 
         public void PassLab(Teacher teacher, Subject subj, Lab passingLab)
@@ -36,17 +39,25 @@ namespace lab_4
                 {
                     PassingLab.Add(subj, 1);
                 }
-            }s
+            }
         }
 
         public void ListenLection(Subject subject, Theme theme)
         {
-            ListeningLections.Add(subject, theme);
+            if (ListeningLections.ContainsKey(subject))
+            {
+                ListeningLections[subject].Add(theme);
+            }
+            ListeningLections.Add(subject, new List<Theme>() { theme });
         }
 
         public void ListenSeminar(Subject subject, Theme theme)
         {
-            ListeningSeminars.Add(subject, theme);
+            if (ListeningSeminars.ContainsKey(subject))
+            {
+                ListeningSeminars[subject].Add(theme);
+            }
+            ListeningSeminars.Add(subject, new List<Theme>() { theme });
         }
     }
 }

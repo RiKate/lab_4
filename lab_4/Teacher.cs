@@ -10,19 +10,31 @@ namespace lab_4
         public string LastName { get; set; }
         public Subject subject;
 
-        public void TakeExam(Student s, Subject subj)
+        public bool CheckLabs(Student student, Subject subj)
         {
-            if (subj != subject)
-                Console.WriteLine(FirstName + " " + LastName + " do not take an exam");
-            else
-                Console.WriteLine(FirstName + " " + LastName + " take an exam");
+            if (subj != subject || student.PassingLab[subj] != subj.Labs.Count)
+                return false;
+            return true;
+        }
+
+        public Theme GiveQuestion()
+        {
+            var rand = new Random();
+            int question = rand.Next(0, subject.Lections.Count);
+            return ((List<Lection>)subject.Lections)[question].Theme;
+        }
+
+        public bool TakeExam()
+        {
+            Console.WriteLine("Success");
+            return true;
         }
 
         public bool TakeLab(Subject subj, Lab lab)
         {
-            if (subject.Name == subj.Name)
+            if (subject == subj)
             {
-                foreach(var l in subject.Labs)
+                foreach (var l in subject.Labs)
                 {
                     if (l.Variant == lab.Variant && l.Name == lab.Name)
                         return true;
@@ -33,7 +45,7 @@ namespace lab_4
 
         public void GiveLection(List<Student> students, Group group, Lection lection)
         {
-            foreach(var student in students)
+            foreach (var student in students)
             {
                 if (group.Students.Contains(student))
                 {
