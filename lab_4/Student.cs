@@ -9,6 +9,10 @@ namespace lab_4
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
+        public Dictionary<Subject, int> PassingLab { get; set; }
+        public Dictionary<Subject, Theme> ListeningLections { get; set; }
+        public Dictionary<Subject, Theme> ListeningSeminars { get; set; }
+
         public ICollection<Subject> Subjects { get; set; } = new List<Subject>();
 
 
@@ -20,30 +24,29 @@ namespace lab_4
                 Console.WriteLine(FirstName + " " + LastName + " do not pass the exam " + s.Name);
         }
 
-        public bool PassLab(Subject subj, Lab passingLab)
+        public void PassLab(Teacher teacher, Subject subj, Lab passingLab)
         {
-            foreach(var subject in Subjects)
+            if (teacher.TakeLab(subj, passingLab))
             {
-                if(subject == subj)
+                if (PassingLab.ContainsKey(subj))
                 {
-                    foreach(var lab in subject.Labs)
-                    {
-                        if (lab.Name == passingLab.Name && lab.Variant == passingLab.Variant)
-                            return true;
-                    }
+                    PassingLab[subj] = PassingLab[subj]++;
                 }
-            }
-            return false;
+                else
+                {
+                    PassingLab.Add(subj, 1);
+                }
+            }s
         }
 
-        public void ListenLection()
+        public void ListenLection(Subject subject, Theme theme)
         {
-
+            ListeningLections.Add(subject, theme);
         }
 
-        public void ListenSeminar()
+        public void ListenSeminar(Subject subject, Theme theme)
         {
-
+            ListeningSeminars.Add(subject, theme);
         }
     }
 }

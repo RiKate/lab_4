@@ -18,14 +18,41 @@ namespace lab_4
                 Console.WriteLine(FirstName + " " + LastName + " take an exam");
         }
 
-        public void GiveLection(Group group, Lection lection)
+        public bool TakeLab(Subject subj, Lab lab)
         {
-
+            if (subject.Name == subj.Name)
+            {
+                foreach(var l in subject.Labs)
+                {
+                    if (l.Variant == lab.Variant && l.Name == lab.Name)
+                        return true;
+                }
+            }
+            return false;
         }
 
-        public void GiveSeminar(Group group, Seminar seminar)
+        public void GiveLection(List<Student> students, Group group, Lection lection)
         {
-
+            foreach(var student in students)
+            {
+                if (group.Students.Contains(student))
+                {
+                    student.ListenLection(subject, lection.Theme);
+                }
+            }
         }
+
+        public void GiveSeminar(List<Student> students, Group group, Seminar seminar)
+        {
+            foreach (var student in students)
+            {
+                if (group.Students.Contains(student))
+                {
+                    student.ListenSeminar(subject, seminar.Theme);
+                }
+            }
+        }
+
+
     }
 }
