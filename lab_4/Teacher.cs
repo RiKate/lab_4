@@ -12,8 +12,11 @@ namespace lab_4
 
         public bool CheckLabs(Student student, Subject subj)
         {
-            if (subj != subject || student.PassingLab[subj] != subj.Labs.Count)
+            if (!student.PassingLab.ContainsKey(subj) || student.PassingLab[subj] != subj.Labs.Count)
+            {
+                Console.WriteLine("Student " + FirstName + " " + LastName + " can not pass the exam. Labs dont pass.");
                 return false;
+            }
             return true;
         }
 
@@ -21,6 +24,7 @@ namespace lab_4
         {
             var rand = new Random();
             int question = rand.Next(0, subject.Lections.Count);
+            Console.WriteLine("Teacher give question with theme: " + ((List<Lection>)subject.Lections)[question].Theme.Name);
             return ((List<Lection>)subject.Lections)[question].Theme;
         }
 
@@ -37,7 +41,9 @@ namespace lab_4
                 foreach (var l in subject.Labs)
                 {
                     if (l.Variant == lab.Variant && l.Name == lab.Name)
+                    {
                         return true;
+                    }
                 }
             }
             return false;
@@ -50,7 +56,10 @@ namespace lab_4
                 if (group.Students.Contains(student))
                 {
                     student.ListenLection(subject, lection.Theme);
+                    Console.WriteLine("Student " + student.FirstName + " " + LastName + " listen lection with theme: " + lection.Theme.Name);
                 }
+                else
+                    Console.WriteLine("Student " + student.FirstName + " " + LastName + " remove from class");
             }
         }
 
@@ -61,7 +70,10 @@ namespace lab_4
                 if (group.Students.Contains(student))
                 {
                     student.ListenSeminar(subject, seminar.Theme);
+                    Console.WriteLine("Student " + student.FirstName + " " + LastName + " listen seminar with theme: " + seminar.Theme.Name);
                 }
+                else
+                    Console.WriteLine("Student " + student.FirstName + " " + LastName + " remove from class");
             }
         }
 
